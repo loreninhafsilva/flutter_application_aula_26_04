@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_aula_26_04/usuario.dart';
 
 class MyValidation extends StatefulWidget {
   const MyValidation({super.key});
@@ -43,6 +45,7 @@ class _MyValidationState extends State<MyValidation> {
         ),
         SizedBox(height: 20,),
         TextFormField(
+          obscureText: true,
           controller: nomeController,
           decoration: InputDecoration(labelText: "Senha", border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.blue),),),
           validator: (value) {
@@ -50,16 +53,40 @@ class _MyValidationState extends State<MyValidation> {
               return("A senha não pode ser vazia"); 
             } else {
               if(value.length < 3){
-                return("Digite um nome com pelo menos 5 caracteres");
+                return("Digite um nome com pelo menos 3 caracteres");
               }
             }
             return null;
           },
         ),
         SizedBox(height: 20,),
-        ElevatedButton(onPressed: (){
+        ElevatedButton(
+          onPressed: () {
           if(chaveValidacao.currentState!.validate()){
-            print(senhaController.text + " " + nomeController.text);
+            if(verifica(nomeController.text, senhaController.text)){
+              showDialog(
+                context: context, 
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text('Acesso liberado'),
+                  content: Text('Welcome'),
+                  actions: [
+                    CupertinoDialogAction(child: Text('Beleza'),
+                    onPressed: () => Navigator.pop(context, 'Beleza'),)
+                  ],
+                ));
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text('Não consegiu entrar'),
+                  content: 
+                      Text('Login ou senha errados'),
+                  actions: [
+                    CupertinoDialogAction(child: Text('OK'),
+                    onPressed: () => Navigator.pop(context, 'OK'),)
+                  ],
+                ));
+            }
           }
           setState(() {
             
@@ -78,5 +105,18 @@ class _MyValidationState extends State<MyValidation> {
       )
       )
     );
+  }
+  
+  bool verifica(String nome, String senha){
+    Usuario usuario = Usuario(nome, senha);
+    List<List<String>> lista = usuario.usuarios;
+    for (var user in lista){
+      if (nome == user[0] && senha == user[1]){
+        return true;
+      } else {
+        continue;
+      }
+    }
+    return false;
   }
 }
