@@ -30,7 +30,7 @@ class _MyValidationState extends State<MyValidation> {
         Divider(thickness: 1, color: Color.fromARGB(255, 136, 136, 136),),
         SizedBox(height: 20,),
         TextFormField(
-          controller: senhaController,
+          controller: nomeController,
           decoration: InputDecoration(labelText: "Nome de Usuário", border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: const Color.fromARGB(255, 80, 104, 239)),),),
           validator: (value) {
             if (value!.isEmpty){
@@ -46,7 +46,7 @@ class _MyValidationState extends State<MyValidation> {
         SizedBox(height: 20,),
         TextFormField(
           obscureText: true,
-          controller: nomeController,
+          controller: senhaController,
           decoration: InputDecoration(labelText: "Senha", border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.blue),),),
           validator: (value) {
             if (value!.isEmpty){
